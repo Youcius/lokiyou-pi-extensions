@@ -1,8 +1,8 @@
 # @lokiyou/pi-nano-footer
 
-超轻量 powerline 风格 footer for **Pi Coding Agent**，霓虹配色方案。
+超轻量 powerline 风格 footer for **Pi Coding Agent**。
 
-精确复刻 pi-powerline-footer default 预设的样式 + 自定义霓虹色配色。
+它保留 Pi 内置的 `Working...` 指示器，同时在底部显示模型、思考等级、目录、上下文、token 和费用，整体走的是清爽、紧凑的霓虹风。
 
 ## 安装
 
@@ -10,35 +10,29 @@
 pi install npm:@lokiyou/pi-nano-footer
 ```
 
-或手动放入 `~/.pi/agent/extensions/` 后 `/reload`。
+安装后重载 Pi：
 
-## 效果
+```bash
+/reload
+```
 
-```
- deepseek-v4-flash  think:high   project   45.2%/128K    1.2k   0.03
-```
+## 展示内容
 
 从左到右依次展示：
-- 🤖 **模型名**（热粉色）
-- 💭 **思考等级**（按等级变色，high/xhigh 彩虹）
-- 📁 **目录名**（青蓝色）
-- 📊 **上下文用量**（紫 → 黄 >70% → 红 >90%）
-- 💾 **Token 用量**（荧光绿）
-- 💰 **费用**（明黄色）
 
-## 配色
+- 🤖 模型名
+- 💭 思考等级
+- 📁 当前目录名
+- 📊 上下文用量
+- 💾 Token 用量
+- 💰 费用
 
-| 令牌 | 色值 | 用途 |
-|------|------|------|
-| 模型 | `#ff3cac` | 热粉 |
-| 路径 | `#00d4ff` | 青蓝 |
-| thinking | `#ff6b6b` | 珊瑚红 |
-| thinking high/xhigh | rainbow | 彩虹渐变 |
-| 上下文正常 | `#6c5ce7` | 紫色 |
-| 上下文 >70% | `#fdcb6e` | 黄色警告 |
-| 上下文 >90% | `#ff3366` | 红色错误 |
-| 费用 | `#fdcb6e` | 明黄 |
-| tokens | `#00ff87` | 荧光绿 |
+## 风格
+
+- 采用 powerline 分隔符
+- 颜色和 `pi-powerline-footer` 的默认 preset 保持一致
+- 不替代内置工作状态指示器
+- 适合想要简洁 footer、但不想丢掉 Pi 原生反馈的人
 
 ## 许可
 

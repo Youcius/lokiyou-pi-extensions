@@ -1,0 +1,38 @@
+{
+  "name": "@lokiyou/modelscope-vision",
+  "version": "0.1.1",
+  "description": "Pi Coding Agent extension: vision/image understanding via ModelScope API. Slash-command configuration for API key and model.",
+  "author": "lokiyou",
+  "license": "MIT",
+  "keywords": [
+    "pi-package",
+    "pi-extension",
+    "vision",
+    "modelscope",
+    "image",
+    "multi-modal"
+  ],
+  "type": "module",
+  "pi": {
+    "extensions": [
+      "./extensions/index.ts"
+    ],
+    "skills": [
+      "./skills"
+    ]
+  },
+  "peerDependencies": {
+    "@earendil-works/pi-coding-agent": "*",
+    "typebox": "*"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "typescript": "^6.0.3"
+  }
+}

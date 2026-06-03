@@ -1,18 +1,12 @@
 /**
- * pi-nano-footer — 超轻量 powerline 风格 footer + 输入框呼吸发光
+ * pi-nano-footer — 超轻量 powerline 风格 footer
  *
  * 精确复刻 pi-powerline-footer default 预设的样式 +
  * 用户自定义霓虹色配色方案。
- *
- * 当模型工作时：
- *   - 输入框边框基于当前颜色做呼吸发光（明暗渐变）
- *   - "Working..." 保持原样
- *   - Footer 不变
  */
 
 import type { AssistantMessage } from "@earendil-works/pi-ai";
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { Editor } from "@earendil-works/pi-tui";
 import { truncateToWidth } from "@earendil-works/pi-tui";
 
 // ── Nerd Font 图标（与 pi-powerline-footer 完全一致） ──
@@ -54,52 +48,6 @@ const RAINBOW = [
   "#b281d6", "#d787af", "#febc38", "#e4c00f",
   "#89d281", "#00afaf", "#178fb9", "#b281d6",
 ];
-
-// ═══════════════════════════════════════════════════════════════════════════
-// 输入框呼吸发光（基于当前边框颜色做明暗呼吸）
-// ═══════════════════════════════════════════════════════════════════════════
-
-let working = false;
-let animInterval: ReturnType<typeof setInterval> | undefined;
-
-/**
- * 从 borderColor 函数采样字符，提取当前 RGB 色值
- */
-function extractRGB(fn: (str: string) => string): [number, number, number] | null {
-  const sample = fn("─");
-  const m = sample.match(ANSI_RE);
-  if (!m) return null;
-  return [parseInt(m[1]), parseInt(m[2]), parseInt(m[3])];
-}
-
-/** 保存原始 render */
-const origRender = Editor.prototype.render;
-
-Editor.prototype.render = function (width: number): string[] {
-  if (working) {
-    const saved = this.borderColor;
-    const rgb = extractRGB(saved);
-    if (rgb) {
-      const [r, g, b] = rgb;
-      // 纯前景呼吸：当前色 + 峰值白色辉光，0.8s 周期
-      // 无背景阴影，避免生硬灯管感
-      const t = 0.5 + 0.5 * Math.sin(performance.now() / 191);
-      const bright = 0.35 + 0.65 * t;  // 35%~100%
-      const glow = t * t * 0.45;        // 0~0.45 白色 blend
-      const nr = Math.round(Math.min(255, r * bright + (255 - r) * glow));
-      const ng = Math.round(Math.min(255, g * bright + (255 - g) * glow));
-      const nb = Math.round(Math.min(255, b * bright + (255 - b) * glow));
-      this.borderColor = (str: string) =>
-        `[38;2;${nr};${ng};${nb}m${str}[0m`;
-    }
-    try {
-      return origRender.call(this, width);
-    } finally {
-      this.borderColor = saved;
-    }
-  }
-  return origRender.call(this, width);
-};
 
 // ═══════════════════════════════════════════════════════════════════════════
 // Extension

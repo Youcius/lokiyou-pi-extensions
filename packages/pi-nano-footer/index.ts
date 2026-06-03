@@ -60,9 +60,7 @@ export default function (pi: ExtensionAPI) {
 
   pi.on("session_start", async (_event, ctx) => {
     thinkingLevel = pi.getThinkingLevel();
-
-    // 隐藏内置的 "Working..." 指示器，用输入框呼吸代替
-    ctx.ui.setWorkingVisible(false);
+    ctx.ui.setWorkingVisible(true);
 
     ctx.ui.setFooter((tui, theme, footerData) => {
       requestRender = () => tui.requestRender();
@@ -112,35 +110,12 @@ export default function (pi: ExtensionAPI) {
     refresh();
   });
   pi.on("model_select", () => refresh());
-
-  // 工作状态切换 → 控制呼吸发光
-  pi.on("agent_start", () => {
-    working = true;
-    // 50ms 间隔主动刷新，保证呼吸动画 20fps 流畅
-    if (requestRender) {
-      animInterval = setInterval(requestRender, 50);
-    }
-    refresh();
-  });
-  pi.on("agent_end", () => {
-    working = false;
-    if (animInterval) {
-      clearInterval(animInterval);
-      animInterval = undefined;
-    }
-    refresh();
-  });
-
   pi.on("turn_start", () => refresh());
   pi.on("turn_end", () => refresh());
 
   pi.on("session_shutdown", (_event, ctx) => {
     ctx.ui.setFooter(undefined);
     requestRender = undefined;
-    if (animInterval) {
-      clearInterval(animInterval);
-      animInterval = undefined;
-    }
   });
 }
 

@@ -1,0 +1,37 @@
+{
+  "name": "@lokiyou/pi-nano-footer",
+  "version": "0.14.0",
+  "description": "超轻量 powerline 风格 footer for Pi Coding Agent — 输入框脉冲发光，霓虹配色，实时显示模型、目录、上下文、token 和费用",
+  "type": "module",
+  "keywords": [
+    "pi-package",
+    "pi-extension",
+    "footer",
+    "statusline",
+    "powerline",
+    "neon"
+  ],
+  "author": "lokiyou",
+  "license": "MIT",
+  "files": [
+    "index.ts",
+    "README.md"
+  ],
+  "pi": {
+    "extensions": [
+      "./index.ts"
+    ]
+  },
+  "peerDependencies": {
+    "@earendil-works/pi-coding-agent": "*",
+    "@earendil-works/pi-tui": "*",
+    "@earendil-works/pi-ai": "*"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

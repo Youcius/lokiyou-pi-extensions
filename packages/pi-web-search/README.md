@@ -1,17 +1,21 @@
 # @lokiyou/pi-web-search
 
-Unified web search and URL content extraction for Pi Coding Agent.
+Simple web search for Pi Coding Agent.
 
-The extension can search the web, extract readable page content, cache source lists for later retrieval, and decompose complex research questions into multiple sub-searches. It can automatically choose between available providers such as Context7, Grok, Tavily, and AnySearch.
+Install it, add your API keys if needed, and ask normal questions. The extension is designed to work out of the box without requiring users to understand provider selection, search routing, or internal tool flow.
 
-## Tools
+## What it does
 
-| Tool | Description |
-| --- | --- |
-| `web_search` | Search the web and return an answer summary with optional source citations. |
-| `web_fetch` | Fetch a URL and extract readable content as Markdown. |
-| `get_sources` | Retrieve the cached source list for a previous `web_search` call by `session_id`. |
-| `search_planning` | Break a complex question into multiple sub-queries and search them in parallel. |
+It adds web search and page-reading capability to Pi.
+
+After installation, you can ask Pi to:
+
+- find recent information on the web
+- open a page and summarize it
+- gather sources when you need references
+- do broader research on a topic
+
+Most users do not need to call the tools manually.
 
 ## Installation
 
@@ -22,11 +26,13 @@ pi install npm:@lokiyou/pi-web-search
 
 ## Configuration
 
-On first load, the extension creates a config template at:
+On first load, the extension creates a config file at:
 
 ```text
 ~/.pi/agent/extensions/pi-web-search/config.json
 ```
+
+In most cases, you only need to add the API keys you want to use. You do not need to tune the internal settings unless you have a specific reason.
 
 Example:
 
@@ -43,45 +49,18 @@ Example:
 }
 ```
 
-| Field | Description |
-| --- | --- |
-| `provider` | Provider mode: `auto`, `context7`, `grok`, `tavily`, or `anysearch`. |
-| `grokApiUrl` | Optional custom Grok-compatible API base URL. |
-| `grokApiKey` | xAI API key for Grok-based search and planning. |
-| `grokModel` | Optional Grok model override such as `grok-3`. |
-| `tavilyApiUrl` | Optional custom Tavily API base URL. |
-| `tavilyApiKey` | Tavily API key. |
-| `context7ApiKey` | Context7 API key. |
-| `anysearchApiKey` | AnySearch API key. |
-
 After updating the config, run `/reload` in Pi.
 
-## Usage notes
+## How to use it
 
-- For bilingual queries, use the `query1 | query2` format in the `query` field.
-- Use `freshness` to filter for recent results: `day`, `week`, `month`, or `year`.
-- Use `domains` to narrow results to a specific topic or content area.
-- Set `sources` to `false` when you only want the summary and a `session_id`.
-- Call `get_sources(session_id)` later to retrieve the full source list.
-- Use `search_planning` for broad or multi-part research questions.
+After installation, use normal prompts such as:
 
-## Examples
+- "Find the latest AI news."
+- "Search for recent updates on local-first databases."
+- "Read this article and summarize it for me."
+- "Research this topic from multiple angles."
 
-Plain-language prompts:
-
-- "Find recent AI infrastructure news from the last week."
-- "Extract the readable content from this URL."
-- "Compare the latest advances in quantum computing | latest advances in quantum computing."
-- "Research the current state of local-first app frameworks."
-
-Tool-style examples:
-
-```text
-web_search({ query: "recent AI news", freshness: "week", sources: true })
-web_fetch({ url: "https://example.com/article" })
-get_sources({ session_id: "abc123" })
-search_planning({ goal: "Compare modern vector databases", sub_queries: 4, sources: true })
-```
+If you want bilingual search, use the `query1 | query2` format when needed.
 
 ## License
 

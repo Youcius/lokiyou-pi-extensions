@@ -14,7 +14,7 @@ const icons = {
   model:   "\uec19",      // nf-md-chip
   mcp:     "\u{f048d}",  // nf-md-server-network
   folder:  "\uf115",      // nf-fa-folder_open
-  thinking: "\ueab4",     // nf-mdi-lightbulb
+  thinking: "\uf0eb",     // nf-fa-lightbulb
   context: "\ue70f",      // nf-dev-database
   cache:   "\uf1c0",      // nf-fa-database
   input:   "\uf090",      // nf-fa-sign_in

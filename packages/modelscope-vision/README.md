@@ -1,19 +1,21 @@
 # @lokiyou/modelscope-vision
 
-Vision extension for Pi Coding Agent powered by the ModelScope API.
+Simple image understanding for Pi Coding Agent.
 
-It provides tools for describing images and answering questions about images from either a public URL or a local file path.
+Install it, set your ModelScope API key, choose a model, and ask normal questions about images. The extension is designed to feel straightforward for everyday use.
 
-## Commands and tools
+## What it does
 
-| Name | Description |
-| --- | --- |
-| `/modelscope-vision key` | Set the ModelScope API access token. |
-| `/modelscope-vision model` | Set the vision model ID, for example `Qwen/Qwen3-VL-32B-Instruct`. |
-| `/modelscope-vision base-url` | Optionally set a compatible API base URL. |
-| `/modelscope-vision config` | Show the current configuration. |
-| `vision-describe` | Generate a description of an image. |
-| `vision-ask` | Ask a specific question about an image. |
+It adds image understanding to Pi.
+
+After installation, you can ask Pi to:
+
+- describe an image
+- answer questions about an image
+- read visible text in an image
+- inspect either a public image URL or a local image file
+
+Most users do not need to call the tools manually.
 
 ## Installation
 
@@ -30,6 +32,11 @@ The extension stores its configuration at:
 ~/.pi/agent/extensions/modelscope-vision/config.json
 ```
 
+In most cases, you only need to do two things:
+
+1. set your API key
+2. choose the model you want to use
+
 ### Set the API key
 
 ```text
@@ -44,7 +51,7 @@ Enter your ModelScope access token when prompted.
 /modelscope-vision model Qwen/Qwen3-VL-32B-Instruct
 ```
 
-### Set a custom base URL
+### Optional: set a custom base URL
 
 ```text
 /modelscope-vision base-url https://api-inference.modelscope.cn/v1
@@ -58,27 +65,19 @@ Enter your ModelScope access token when prompted.
 
 After changing configuration, run `/reload` if needed.
 
-## Inputs
+## How to use it
 
-Both tools support either of the following:
-
-- `image_url`: a public image URL
-- `image_path`: an absolute local file path
-
-## Examples
-
-Plain-language prompts:
+After installation, use normal prompts such as:
 
 - "Describe this image in detail."
 - "How many people are in this photo?"
 - "What does the text in this image say?"
+- "What error message is shown in this screenshot?"
 
-Tool-style examples:
+The extension supports either of the following inputs:
 
-```text
-vision-describe({ image_url: "https://example.com/cat.jpg", language: "en" })
-vision-ask({ image_path: "C:/images/screenshot.png", question: "What error message is shown?" })
-```
+- `image_url` for a public image URL
+- `image_path` for an absolute local file path
 
 ## License
 

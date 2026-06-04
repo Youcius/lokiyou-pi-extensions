@@ -1,17 +1,30 @@
 # lokiyou-pi-extensions
 
-Lokiyou 的 Pi 扩展 Monorepo，统一收纳并维护 3 个公开发布的扩展包。
+Monorepo for Pi Coding Agent extensions published under the `@lokiyou` scope.
 
-## 包一览
+## Packages
 
-| 包 | 用途 | 安装 |
-|---|---|---|
-| `packages/pi-web-search` | `web_search` / `web_fetch` / `get_sources` / `search_planning`，支持双语搜索、来源缓存、复杂查询拆分 | `pi install npm:@lokiyou/pi-web-search` |
-| `packages/pi-nano-footer` | 轻量 powerline footer，显示模型、思考等级、目录、上下文、token、费用，并保留 Pi 内置 `Working...` 指示器 | `pi install npm:@lokiyou/pi-nano-footer` |
-| `packages/modelscope-vision` | 通过 ModelScope API 提供图片理解能力，支持 `vision-describe` 和 `vision-ask` | `pi install npm:@lokiyou/modelscope-vision` |
+| Package | Summary | Install |
+| --- | --- | --- |
+| `@lokiyou/pi-web-search` | Unified web search, URL extraction, source caching, and multi-query search planning for Pi Coding Agent. | `pi install npm:@lokiyou/pi-web-search` |
+| `@lokiyou/pi-nano-footer` | Lightweight powerline-style footer that shows model, thinking level, directory, MCP status, context usage, tokens, and cost while keeping Pi's built-in `Working...` indicator. | `pi install npm:@lokiyou/pi-nano-footer` |
+| `@lokiyou/modelscope-vision` | Vision tools for describing images and answering image questions through the ModelScope API. | `pi install npm:@lokiyou/modelscope-vision` |
 
-## 开发说明
+## Repository layout
 
-- 每个包都可以独立发布到 npm。
-- `packages/*` 下的 README 是各自的使用说明与配置说明。
-- 若要本地开发，直接进入对应目录修改并重新发布即可。
+- `packages/pi-web-search` - search extension package
+- `packages/pi-nano-footer` - footer extension package
+- `packages/modelscope-vision` - vision extension package
+
+## Development
+
+Each package is versioned and published independently.
+
+Typical workflow:
+
+1. Edit the package inside `packages/<name>`.
+2. Update the package README and `package.json` metadata if needed.
+3. Publish from the package directory.
+4. Commit and push the monorepo changes.
+
+See each package README for installation, configuration, and usage details.

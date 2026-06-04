@@ -1,7 +1,7 @@
 {
   "name": "@lokiyou/modelscope-vision",
-  "version": "0.1.1",
-  "description": "Pi Coding Agent extension: vision/image understanding via ModelScope API. Slash-command configuration for API key and model.",
+  "version": "0.1.2",
+  "description": "Vision extension for Pi Coding Agent powered by the ModelScope API, with slash-command configuration and tools for image description and question answering.",
   "author": "lokiyou",
   "license": "MIT",
   "keywords": [

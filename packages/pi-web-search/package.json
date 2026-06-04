@@ -1,7 +1,7 @@
 {
   "name": "@lokiyou/pi-web-search",
-  "version": "0.2.0",
-  "description": "Unified web search and URL fetch for Pi Coding Agent. Bilingual search, source caching, search planning, freshness/domain filtering. Auto-selects between Context7, Grok, Tavily, and AnySearch.",
+  "version": "0.2.1",
+  "description": "Unified web search and URL content extraction for Pi Coding Agent with source caching, search planning, freshness filters, and provider auto-selection.",
   "type": "module",
   "keywords": [
     "pi-package",

@@ -11,13 +11,14 @@ import { truncateToWidth } from "@earendil-works/pi-tui";
 
 // ── Nerd Font 图标（与 pi-powerline-footer 完全一致） ──
 const icons = {
-  model:   "\uec19",  // nf-md-chip
-  folder:  "\uf115",  // nf-fa-folder_open
-  context: "\ue70f",  // nf-dev-database
-  cache:   "\uf1c0",  // nf-fa-database
-  input:   "\uf090",  // nf-fa-sign_in
-  cost:    "\uf155",  // nf-fa-dollar
-  sep:     "\ue0b1",  // powerline-thin
+  model:   "\uec19",      // nf-md-chip
+  mcp:     "\u{f048d}",  // nf-md-server-network
+  folder:  "\uf115",      // nf-fa-folder_open
+  context: "\ue70f",      // nf-dev-database
+  cache:   "\uf1c0",      // nf-fa-database
+  input:   "\uf090",      // nf-fa-sign_in
+  cost:    "\uf155",      // nf-fa-dollar
+  sep:     "\ue0b1",      // powerline-thin
 };
 
 // ── 用户自定义霓虹配色 ──
@@ -87,14 +88,18 @@ export default function (pi: ExtensionAPI) {
           const dir = ctx.cwd.replace(/\\/g, "/").split("/").filter(Boolean).pop() || ctx.cwd;
           parts.push(ansi(C.path, `${icons.folder} ${dir}`));
 
-          // 4. 上下文用量 —— #6c5ce7 紫 / #fdcb6e 黄 / #ff3366 红
+          // 4. MCP 摘要 —— 紧凑图标版
+          const mcp = renderMcpN(footerData);
+          if (mcp) parts.push(mcp);
+
+          // 5. 上下文用量 —— #6c5ce7 紫 / #fdcb6e 黄 / #ff3366 红
           parts.push(renderContextN(ctx));
 
-          // 5. Token 用量 —— #00ff87 荧光绿
+          // 6. Token 用量 —— #00ff87 荧光绿
           const { input, cost } = calcTotals(ctx);
           parts.push(ansi(C.tokens, `${icons.cache} ${icons.input} ${fmt(input)}`));
 
-          // 6. 费用 —— #fdcb6e 明黄色
+          // 7. 费用 —— #fdcb6e 明黄色
           parts.push(ansi(C.cost, `${icons.cost} ${cost.toFixed(2)}`));
 
           return [truncateToWidth(parts.join(S), width, "")];
@@ -166,6 +171,43 @@ function renderContextN(ctx: any): string {
     ? `/${(ctx.model.contextWindow / 1_000_000).toFixed(1)}M`
     : "";
   return ansi(color, `${icons.context} ${pct?.toFixed(1) ?? "?"}%${maxStr}`);
+}
+
+/** 渲染 MCP 状态摘要，优先显示已连接/总数 */
+function renderMcpN(footerData: any): string | null {
+  const statuses = footerData?.getExtensionStatuses?.();
+  if (!statuses || typeof statuses.get !== "function") return null;
+
+  const raw = typeof statuses.get("mcp") === "string"
+    ? statuses.get("mcp")
+    : Array.from(statuses.values()).find((value: unknown) => typeof value === "string" && value.includes("MCP:"));
+  if (typeof raw !== "string") return null;
+
+  const status = raw.replace(/\x1b\[[0-9;]*m/g, "").replace(/\s+/g, " ").trim();
+
+  const ratio = /MCP:\s*(\d+)\s*\/\s*(\d+)\s+servers?/i.exec(status);
+  if (ratio) {
+    const connected = Number(ratio[1]);
+    const total = Number(ratio[2]);
+    const color = connected >= total ? C.tokens : C.thinkingMedium;
+    return ansi(color, `${icons.mcp} ${connected}/${total}`);
+  }
+
+  const connected = /MCP:\s*(\d+)\s+servers connected(?:\s*\((\d+)\s+tools\))?/i.exec(status);
+  if (connected) {
+    return ansi(C.tokens, `${icons.mcp} ${connected[1]}`);
+  }
+
+  const connecting = /MCP:\s*connecting to\s+(\d+)\s+servers?/i.exec(status);
+  if (connecting) {
+    return ansi(C.thinkingMedium, `${icons.mcp} …/${connecting[1]}`);
+  }
+
+  if (/failed|error|needs-auth|oauth/i.test(status)) {
+    return ansi(C.contextError, `${icons.mcp} !`);
+  }
+
+  return ansi(C.context, `${icons.mcp} ?`);
 }
 
 /** 遍历会话分支，累计 input token 数和总费用 */

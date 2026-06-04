@@ -1,7 +1,7 @@
 {
   "name": "@lokiyou/pi-nano-footer",
-  "version": "0.15.1",
-  "description": "超轻量 powerline 风格 footer for Pi Coding Agent，保留内置 Working... 指示器，霓虹配色，实时显示模型、目录、上下文、token 和费用",
+  "version": "0.15.2",
+  "description": "Lightweight powerline-style footer for Pi Coding Agent that shows model, thinking level, directory, MCP status, context usage, tokens, and cost while keeping the built-in Working indicator.",
   "type": "module",
   "keywords": [
     "pi-package",

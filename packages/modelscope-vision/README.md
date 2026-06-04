@@ -1,84 +1,85 @@
-# 🖼️ @lokiyou/modelscope-vision
+# @lokiyou/modelscope-vision
 
-Pi Coding Agent 扩展：通过 ModelScope API 实现图片视觉理解。
+Vision extension for Pi Coding Agent powered by the ModelScope API.
 
-> 开一张图，AI 替你“看”—— 描述场景、识别人物、阅读文字、回答你对图片的任何问题。
+It provides tools for describing images and answering questions about images from either a public URL or a local file path.
 
-## 功能
+## Commands and tools
 
-| 命令 / 工具 | 说明 |
-|---|---|
-| `/modelscope-vision key` | 设置 ModelScope API 密钥（访问令牌） |
-| `/modelscope-vision model` | 配置模型 ID，例如 `Qwen/Qwen3-VL-32B-Instruct` |
-| `/modelscope-vision base-url` | 可选：配置兼容的 API 地址 |
-| `/modelscope-vision config` | 查看当前配置 |
-| `vision-describe` | 让 Agent 自动描述图片 |
-| `vision-ask` | 让 Agent 针对图片提问并回答 |
+| Name | Description |
+| --- | --- |
+| `/modelscope-vision key` | Set the ModelScope API access token. |
+| `/modelscope-vision model` | Set the vision model ID, for example `Qwen/Qwen3-VL-32B-Instruct`. |
+| `/modelscope-vision base-url` | Optionally set a compatible API base URL. |
+| `/modelscope-vision config` | Show the current configuration. |
+| `vision-describe` | Generate a description of an image. |
+| `vision-ask` | Ask a specific question about an image. |
 
-## 安装
+## Installation
 
 ```bash
 pi install npm:@lokiyou/modelscope-vision
 /reload
 ```
 
-## 本地开发
+## Configuration
 
-如果你想直接在本地目录调试，可以把整个目录链接到 Pi 扩展目录：
+The extension stores its configuration at:
 
-```bash
-mklink /J "%USERPROFILE%\.pi\agent\extensions\modelscope-vision" "%USERPROFILE%\modelscope-vision"
+```text
+~/.pi/agent/extensions/modelscope-vision/config.json
 ```
 
-然后执行：
-
-```bash
-/reload
-```
-
-## 配置
-
-### 1) 设置 API 密钥
-
-在 Pi 里执行：
+### Set the API key
 
 ```text
 /modelscope-vision key
 ```
 
-输入你的 [ModelScope 访问令牌](https://modelscope.cn/my/overview)。
+Enter your ModelScope access token when prompted.
 
-### 2) 选择模型
+### Set the model
 
 ```text
 /modelscope-vision model Qwen/Qwen3-VL-32B-Instruct
 ```
 
-### 3) 如需更换 API 地址
+### Set a custom base URL
 
 ```text
 /modelscope-vision base-url https://api-inference.modelscope.cn/v1
 ```
 
-### 4) 查看当前配置
+### View the current configuration
 
 ```text
 /modelscope-vision config
 ```
 
-配置存放在 `~/.pi/agent/extensions/modelscope-vision/config.json`。
+After changing configuration, run `/reload` if needed.
 
-## 使用示例
+## Inputs
 
-- “帮我看看这张图里有什么？”
-- “这张照片里有几个人？穿着什么颜色的衣服？”
-- “图里的这段文字是什么意思？”
+Both tools support either of the following:
 
-支持的图片来源：
+- `image_url`: a public image URL
+- `image_path`: an absolute local file path
 
-- **网络图片**：传入 `image_url`（公开可访问的 URL）
-- **本地图片**：传入 `image_path`（绝对路径，扩展会自动读取并编码）
+## Examples
 
-## 许可
+Plain-language prompts:
+
+- "Describe this image in detail."
+- "How many people are in this photo?"
+- "What does the text in this image say?"
+
+Tool-style examples:
+
+```text
+vision-describe({ image_url: "https://example.com/cat.jpg", language: "en" })
+vision-ask({ image_path: "C:/images/screenshot.png", question: "What error message is shown?" })
+```
+
+## License
 
 MIT

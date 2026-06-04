@@ -1,39 +1,39 @@
 # @lokiyou/pi-nano-footer
 
-超轻量 powerline 风格 footer for **Pi Coding Agent**。
+Lightweight powerline-style footer for Pi Coding Agent.
 
-它保留 Pi 内置的 `Working...` 指示器，同时在底部显示模型、思考等级、目录、上下文、token 和费用，整体走的是清爽、紧凑的霓虹风。
+This extension replaces the default footer with a compact single-line status bar while keeping Pi's built-in `Working...` indicator. It is designed to stay small and focused.
 
-## 安装
+## Installation
 
 ```bash
 pi install npm:@lokiyou/pi-nano-footer
-```
-
-安装后重载 Pi：
-
-```bash
 /reload
 ```
 
-## 展示内容
+## What it shows
 
-从左到右依次展示：
+From left to right, the footer shows:
 
-- 🤖 模型名
-- 💭 思考等级
-- 📁 当前目录名
-- 📊 上下文用量
-- 💾 Token 用量
-- 💰 费用
+- current model
+- thinking level
+- current directory name
+- MCP status summary when MCP status is available
+- context usage
+- token totals
+- estimated cost
 
-## 风格
+## Behavior
 
-- 采用 powerline 分隔符
-- 颜色和 `pi-powerline-footer` 的默认 preset 保持一致
-- 不替代内置工作状态指示器
-- 适合想要简洁 footer、但不想丢掉 Pi 原生反馈的人
+- Uses a compact powerline-style separator layout.
+- Keeps Pi's built-in `Working...` indicator instead of replacing it.
+- Reads MCP status from extension status data when an MCP adapter exposes it.
+- Focuses only on the footer and does not replace the editor component.
 
-## 许可
+## Notes
+
+No additional configuration is required.
+
+## License
 
 MIT

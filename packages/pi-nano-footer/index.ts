@@ -66,10 +66,22 @@ export default function (pi: ExtensionAPI) {
     ctx.ui.setFooter((tui, theme, footerData) => {
       requestRender = () => tui.requestRender();
       const unsubBranch = footerData.onBranchChange(() => tui.requestRender());
+      let lastStatusSnapshot = snapshotStatuses(footerData);
+      const statusPoll = setInterval(() => {
+        const nextStatusSnapshot = snapshotStatuses(footerData);
+        if (nextStatusSnapshot !== lastStatusSnapshot) {
+          lastStatusSnapshot = nextStatusSnapshot;
+          tui.requestRender();
+        }
+      }, 500);
       const clock = setInterval(() => tui.requestRender(), 30_000);
 
       return {
-        dispose() { unsubBranch(); clearInterval(clock); },
+        dispose() {
+          unsubBranch();
+          clearInterval(statusPoll);
+          clearInterval(clock);
+        },
         invalidate() {},
         render(width: number): string[] {
           if (width <= 0) return [];
@@ -124,9 +136,23 @@ export default function (pi: ExtensionAPI) {
   });
 }
 
+function snapshotStatuses(footerData: any): string {
+  const statuses = footerData?.getExtensionStatuses?.();
+  if (!statuses || typeof statuses.entries !== "function") return "";
+
+  return Array.from(statuses.entries())
+    .sort(([a], [b]) => String(a).localeCompare(String(b)))
+    .map(([key, value]) => `${String(key)}:${stripAnsi(String(value))}`)
+    .join("|");
+}
+
 // ═══════════════════════════════════════════════════════════════════════════
 // Helper 函数
 // ═══════════════════════════════════════════════════════════════════════════
+
+function stripAnsi(text: string): string {
+  return text.replace(/\x1b\[[0-9;]*m/g, "");
+}
 
 /** 16 进制色值 → ANSI 24-bit true color 前景色转义序列 */
 function ansi(hex: string, text: string): string {
@@ -183,7 +209,7 @@ function renderMcpN(footerData: any): string | null {
     : Array.from(statuses.values()).find((value: unknown) => typeof value === "string" && value.includes("MCP:"));
   if (typeof raw !== "string") return null;
 
-  const status = raw.replace(/\x1b\[[0-9;]*m/g, "").replace(/\s+/g, " ").trim();
+  const status = stripAnsi(raw).replace(/\s+/g, " ").trim();
 
   const ratio = /MCP:\s*(\d+)\s*\/\s*(\d+)\s+servers?/i.exec(status);
   if (ratio) {

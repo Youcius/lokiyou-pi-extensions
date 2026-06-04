@@ -14,6 +14,7 @@ const icons = {
   model:   "\uec19",      // nf-md-chip
   mcp:     "\u{f048d}",  // nf-md-server-network
   folder:  "\uf115",      // nf-fa-folder_open
+  thinking: "\ueab4",     // nf-mdi-lightbulb
   context: "\ue70f",      // nf-dev-database
   cache:   "\uf1c0",      // nf-fa-database
   input:   "\uf090",      // nf-fa-sign_in
@@ -163,25 +164,24 @@ function ansi(hex: string, text: string): string {
   return `\x1b[38;2;${r};${g};${b}m${text}\x1b[0m`;
 }
 
+function paint(hex: string, text: string, bold = false): string {
+  return bold ? `\x1b[1m${ansi(hex, text)}` : ansi(hex, text);
+}
+
 /** 渲染思考等级 */
 function renderThinkingN(level: string): string {
-  const label = level === "minimal" ? "min"
-              : level === "medium" ? "med"
-              : level;
-  const text = `think:${label}`;
-
   switch (level) {
     case "high":
     case "xhigh":
-      return rainbow(text);
-    case "minimal":
-      return ansi(C.thinkingMinimal, text);
-    case "low":
-      return ansi(C.thinkingLow, text);
+      return paint("#fff6b0", icons.thinking, true);
     case "medium":
-      return ansi(C.thinkingMedium, text);
+      return paint(C.thinkingMedium, icons.thinking, true);
+    case "low":
+      return paint(C.thinkingLow, icons.thinking);
+    case "minimal":
+      return paint(C.thinkingMinimal, icons.thinking);
     default:
-      return ansi(C.thinking, text);
+      return paint(C.thinking, icons.thinking);
   }
 }
 
@@ -194,7 +194,7 @@ function renderContextN(ctx: any): string {
               : pct >= 70 ? C.contextWarn
               : C.context;
   const maxStr = ctx.model?.contextWindow
-    ? `/${(ctx.model.contextWindow / 1_000_000).toFixed(1)}M`
+    ? `/${formatContextWindow(ctx.model.contextWindow)}`
     : "";
   return ansi(color, `${icons.context} ${pct?.toFixed(1) ?? "?"}%${maxStr}`);
 }
@@ -254,6 +254,14 @@ function fmt(n: number): string {
   if (n < 1000) return `${n}`;
   if (n < 1_000_000) return `${(n / 1000).toFixed(n < 10_000 ? 1 : 0)}k`;
   return `${(n / 1_000_000).toFixed(1)}m`;
+}
+
+function formatContextWindow(n: number): string {
+  if (n < 1000) return `${n}`;
+  if (n < 1_000_000) return `${Math.floor(n / 1000)}K`;
+  const scaled = n / 1_000_000;
+  const text = Number.isInteger(scaled) ? `${scaled.toFixed(0)}` : scaled.toFixed(scaled >= 10 ? 0 : 1).replace(/\.0$/, "");
+  return `${text}M`;
 }
 
 /** 缩短模型名 */

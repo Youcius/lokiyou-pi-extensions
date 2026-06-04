@@ -170,18 +170,23 @@ function paint(hex: string, text: string, bold = false): string {
 
 /** 渲染思考等级 */
 function renderThinkingN(level: string): string {
+  const label = level === "minimal" ? "min"
+              : level === "medium" ? "med"
+              : level;
+  const text = `${icons.thinking} think:${label}`;
+
   switch (level) {
     case "high":
     case "xhigh":
-      return paint("#fff6b0", icons.thinking, true);
+      return paint("#fff6b0", text, true);
     case "medium":
-      return paint(C.thinkingMedium, icons.thinking, true);
+      return paint(C.thinkingMedium, text, true);
     case "low":
-      return paint(C.thinkingLow, icons.thinking);
+      return paint(C.thinkingLow, text);
     case "minimal":
-      return paint(C.thinkingMinimal, icons.thinking);
+      return paint(C.thinkingMinimal, text);
     default:
-      return paint(C.thinking, icons.thinking);
+      return paint(C.thinking, text);
   }
 }
 

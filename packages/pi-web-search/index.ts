@@ -11,7 +11,7 @@
 
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { Type } from "typebox";
-import { Text } from "@earendil-works/pi-tui";
+// import { Text } from "@earendil-works/pi-tui";
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
 import { homedir } from "node:os";
 import { join } from "node:path";
@@ -592,21 +592,21 @@ export default function (pi: ExtensionAPI) {
       };
     },
 
-    renderCall(args, theme, context) {
-      const q = (args as any)?.query || "";
-      if (context?.expanded === false) {
-        const display = q.length > 45 ? q.slice(0, 42) + "..." : q;
-        return new Text(theme.fg("toolTitle", theme.bold("web_search ")) + theme.fg("accent", display), 0, 0);
-      }
-      const display = q.length > 50 ? q.slice(0, 47) + "..." : q;
-      return new Text(theme.fg("toolTitle", theme.bold("web_search ")) + theme.fg("accent", display), 0, 0);
-    },
+    // renderCall(args, theme, context) {
+    //   const q = (args as any)?.query || "";
+    //   if (context?.expanded === false) {
+    //     const display = q.length > 45 ? q.slice(0, 42) + "..." : q;
+    //     return new Text(theme.fg("toolTitle", theme.bold("web_search ")) + theme.fg("accent", display), 0, 0);
+    //   }
+    //   const display = q.length > 50 ? q.slice(0, 47) + "..." : q;
+    //   return new Text(theme.fg("toolTitle", theme.bold("web_search ")) + theme.fg("accent", display), 0, 0);
+    // },
 
-    renderResult(result, { expanded }, theme, _context) {
-      if (!expanded) return new Text("", 0, 0);
-      const text = result.content?.[0]?.type === "text" ? result.content[0].text : "";
-      return new Text(text, 0, 0);
-    },
+    // renderResult(result, { expanded }, theme, _context) {
+    //   if (!expanded) return new Text("", 0, 0);
+    //   const text = result.content?.[0]?.type === "text" ? result.content[0].text : "";
+    //   return new Text(text, 0, 0);
+    // },
   });
 
   // ─── Tool: web_fetch ───
@@ -660,13 +660,13 @@ export default function (pi: ExtensionAPI) {
       }
     },
 
-    renderResult(result, { expanded }, theme, _context) {
-      // 折叠时完全隐藏
-      if (!expanded) return new Text("", 0, 0);
+    // renderResult(result, { expanded }, theme, _context) {
+    //   // 折叠时完全隐藏
+    //   if (!expanded) return new Text("", 0, 0);
 
-      const text = result.content?.[0]?.type === "text" ? result.content[0].text : "";
-      return new Text(text, 0, 0);
-    },
+    //   const text = result.content?.[0]?.type === "text" ? result.content[0].text : "";
+    //   return new Text(text, 0, 0);
+    // },
   });
 
   // ─── Tool: get_sources (来源缓存取回) ───
@@ -698,17 +698,17 @@ export default function (pi: ExtensionAPI) {
       };
     },
 
-    renderCall(args, theme, context) {
-      const sid = (args as any)?.session_id || "";
-      const display = sid.length > 30 ? sid.slice(0, 27) + "..." : sid;
-      return new Text(theme.fg("toolTitle", theme.bold("get_sources ")) + theme.fg("accent", display), 0, 0);
-    },
+    // renderCall(args, theme, context) {
+    //   const sid = (args as any)?.session_id || "";
+    //   const display = sid.length > 30 ? sid.slice(0, 27) + "..." : sid;
+    //   return new Text(theme.fg("toolTitle", theme.bold("get_sources ")) + theme.fg("accent", display), 0, 0);
+    // },
 
-    renderResult(result, { expanded }, theme, _context) {
-      if (!expanded) return new Text("", 0, 0);
-      const text = result.content?.[0]?.type === "text" ? result.content[0].text : "";
-      return new Text(text, 0, 0);
-    },
+    // renderResult(result, { expanded }, theme, _context) {
+    //   if (!expanded) return new Text("", 0, 0);
+    //   const text = result.content?.[0]?.type === "text" ? result.content[0].text : "";
+    //   return new Text(text, 0, 0);
+    // },
   });
 
   // ─── Tool: search_planning (复杂查询分解) ───
@@ -826,20 +826,20 @@ export default function (pi: ExtensionAPI) {
       }
     },
 
-    renderCall(args, theme, context) {
-      const goal = (args as any)?.goal || "";
-      if (context?.expanded === false) {
-        const display = goal.length > 40 ? goal.slice(0, 37) + "..." : goal;
-        return new Text(theme.fg("toolTitle", theme.bold("search_planning ")) + theme.fg("accent", display), 0, 0);
-      }
-      const display = goal.length > 50 ? goal.slice(0, 47) + "..." : goal;
-      return new Text(theme.fg("toolTitle", theme.bold("search_planning ")) + theme.fg("accent", display), 0, 0);
-    },
+    // renderCall(args, theme, context) {
+    //   const goal = (args as any)?.goal || "";
+    //   if (context?.expanded === false) {
+    //     const display = goal.length > 40 ? goal.slice(0, 37) + "..." : goal;
+    //     return new Text(theme.fg("toolTitle", theme.bold("search_planning ")) + theme.fg("accent", display), 0, 0);
+    //   }
+    //   const display = goal.length > 50 ? goal.slice(0, 47) + "..." : goal;
+    //   return new Text(theme.fg("toolTitle", theme.bold("search_planning ")) + theme.fg("accent", display), 0, 0);
+    // },
 
-    renderResult(result, { expanded }, theme, _context) {
-      if (!expanded) return new Text("", 0, 0);
-      const text = result.content?.[0]?.type === "text" ? result.content[0].text : "";
-      return new Text(text, 0, 0);
-    },
+    // renderResult(result, { expanded }, theme, _context) {
+    //   if (!expanded) return new Text("", 0, 0);
+    //   const text = result.content?.[0]?.type === "text" ? result.content[0].text : "";
+    //   return new Text(text, 0, 0);
+    // },
   });
 }

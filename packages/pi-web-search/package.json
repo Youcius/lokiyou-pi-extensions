@@ -1,6 +1,6 @@
 {
   "name": "@lokiyou/pi-web-search",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Simple web search for Pi Coding Agent. Install it, add API keys if needed, and ask normal questions.",
   "type": "module",
   "keywords": [

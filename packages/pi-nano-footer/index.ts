@@ -178,7 +178,7 @@ function renderThinkingN(level: string): string {
   switch (level) {
     case "high":
     case "xhigh":
-      return paint("#fff6b0", text, true);
+      return rainbow(text);
     case "medium":
       return paint(C.thinkingMedium, text, true);
     case "low":
